@@ -1,4 +1,4 @@
-// Package modules implements some helper functions for an ftp client
+// Package ftpclient implements some helper functions for an ftp client
 package ftpclient
 
 import (
@@ -14,7 +14,12 @@ type ftpCon struct {
 
 // GetFiles downloads all files of the given ftype from the rfolder on the FTP Server
 // to the local lfolder. if del is true files will be deleted after downloading
-func (fc *ftpCon) GetFiletype(rfolder string, ftype string, lfolder string, del bool) error {
+// Function params:
+// lfolder = local folder for storing the files
+// rfolder = remote folder to download the files from
+// ftype = the file extension of the files that should be downloaded / "" for all files
+// del = true for deleting files from the remote folder after download, false to keep them
+func (fc *ftpCon) GetFiletype(lfolder string, rfolder string, ftype string, del bool) error {
 
 	if lfolder[len(lfolder)-1:] != "/" {
 		rfolder = rfolder + "/"
@@ -27,6 +32,7 @@ func (fc *ftpCon) GetFiletype(rfolder string, ftype string, lfolder string, del 
 		return fmt.Errorf("Could not get file list: %s", err)
 	}
 	for _, file := range fl {
+		// TODO download all files from folder if ftype == ""
 		if filepath.Ext(rfolder+file.Name) == ftype {
 			f, err := fc.Retr(rfolder + file.Name)
 			if err != nil {
