@@ -6,10 +6,10 @@ import (
 
 func TestFtpclient(t *testing.T) {
 	f := FtpCon{
-		user: "one",
-		pass: "1234",
-		host: "localhost:21",
+		User: "one",
+		Pass: "1234",
+		Host: "localhost:21",
 	}
-	err := f.GetFiletype("/Users/m3tam3re/Tools", "/ftp/one", "", true)
-	t.Log(err)
+	fl, err := f.GetFiletype("/Users/m3tam3re/Tools", "/ftp/one", "", true)
+	t.Log(fl, err)
 }
